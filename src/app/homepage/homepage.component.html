@@ -3,4 +3,8 @@
   <p>Il tuo nome utente è: {{ random_username }}</p>
 </div>
 
-<button (click)="enter_chatpage()">Entra nella chat</button>
+<a routerLink="/chatpage">Vai alle chat</a>
+
+<ul>
+  <li *ngFor="let topic of topics">{{ topic }}</li>
+</ul>

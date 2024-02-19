@@ -4,6 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomepageComponent } from './homepage/homepage.component'; 
 import { ChatpageComponent } from './chatpage/chatpage.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { ChatpageComponent } from './chatpage/chatpage.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule // Aggiungi il modulo di routing
+    AppRoutingModule,
+    CommonModule
 
   ],
   providers: [],

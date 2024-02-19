@@ -1,22 +1,41 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MqttService } from '../mqtt.service';
+import { CommonModule, NgFor } from '@angular/common';
+import { NgModule } from '@angular/core';
 
 @Component({
   selector: 'app-homepage',
-  //standalone: true,
-  //imports: [],
+  standalone: true,
+  imports: [
+    CommonModule,
+    NgFor
+  ],
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.css'
 })
 
 export class HomepageComponent implements OnInit {
 
-  constructor(private router: Router) {
+  topics: string [] = [];
+  //da spostare
+  get_all_topics(): string[] {
+    return this.mqtt_service.get_topics();
+  }
+
+  constructor(private router: Router, /*da spostare*/private mqtt_service: MqttService) {
     this.random_username = this.generate_random_username();
+    
+    //da spostare
+    this.mqtt_service = mqtt_service
+    
   }
 
   ngOnInit(): void {
     this.generate_random_username();
+
+    // da spostare
+    this.topics = this.get_all_topics();
   }
 
   random_username: string;
@@ -38,7 +57,10 @@ export class HomepageComponent implements OnInit {
     return random_username;
   }
 
-  enter_chatpage() {
-    this.router.navigate(['/chatpage'])
+  //da spostare
+  subscribe_to_topic(topic: string) {
+    this.mqtt_service.subscribe(topic)
   }
+
+  
 }

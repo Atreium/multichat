@@ -1,24 +1,40 @@
 import { Injectable } from '@angular/core';
-import * as mqtt from 'mqtt';
+import mqtt from 'mqtt';
 
-const options = {
-  host: 'mqtt://localhost:1883',
-  port: 1883,
-};
-
-const client = mqtt.connect(options);
-
-client.on('connect', () => {
-  console.log('connessione riuscita!!');
-});
-client.on('error', (error) => {
-  console.error('errore!! -> ', error);
-});
+const lista_topic: string[] = [
+  "film",
+  "musica",
+  "videogiochi"
+]
 
 @Injectable({
   providedIn: 'root'
 })
 export class MqttService {
+  private client: mqtt.MqttClient;
 
-  constructor() { }
+  constructor() {
+    this.client = mqtt.connect('ws://localhost:9001');
+    this.client.on('connect', () => {
+      console.log('Connesso al server MQTT');
+    });
+  }
+
+  subscribe(topic: string){
+    this.client.subscribe(topic, (err) => {
+    if (!err) {
+    console.log('Sottoscritto al topic delle chatroom');
+    } else {
+    console.error('Errore durante la sottoscrizione al topic delle chatroom:', err);
+    }
+    }); 
+  }
+  
+  getMqttClient(): mqtt.MqttClient {
+    return this.client;
+  }
+
+  get_topics(): string[] {
+    return lista_topic;
+  }
 }
