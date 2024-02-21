@@ -6,5 +6,18 @@
 <a routerLink="/chatpage">Vai alle chat</a>
 
 <ul>
-  <li *ngFor="let topic of topics">{{ topic }}</li>
+  <li *ngFor="let topic of topics">
+    <button (click)="subscribe_to_topic(topic)">{{topic}}</button>
+  </li>
 </ul>
+
+
+<form [formGroup]="message_form" (submit)="send_message_to_chat()">
+ 
+
+  <label for="message">message</label>
+  <input id="message" type="text" formControlName="message">
+
+  
+  <button type="submit" class="primary">Invia messaggio</button>
+</form>

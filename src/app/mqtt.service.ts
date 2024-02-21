@@ -16,21 +16,37 @@ export class MqttService {
   constructor() {
     this.client = mqtt.connect('ws://localhost:9001');
     this.client.on('connect', () => {
-      console.log('Connesso al server MQTT');
+      console.log('Connesso al server MQTT'); 7
     });
   }
 
-  subscribe(topic: string){
+  subscribe(topic: string) {
     this.client.subscribe(topic, (err) => {
-    if (!err) {
-    console.log('Sottoscritto al topic delle chatroom');
-    } else {
-    console.error('Errore durante la sottoscrizione al topic delle chatroom:', err);
-    }
-    }); 
+      if (!err) {
+        console.log('Tema della chat: ' + topic);
+      } else {
+        console.error('Errore durante la sottoscrizione al topic delle chatroom:', err);
+      }
+    });
   }
-  
-  getMqttClient(): mqtt.MqttClient {
+
+  send_message(topic: string, message: string): void {
+    if (!this.client.connected) {
+      console.error('non connesso!!');
+      return;
+    }
+
+    this.client.publish(topic, message, (err) => {
+      if (err) {
+        console.error('errore in invio!! -> ', err);
+      } else {
+        console.log('messaggio spedito sulla chat -> ', topic);
+        console.log('testo messaggio -> ', message);
+      }
+    });
+  }  
+
+  get_mqtt_client(): mqtt.MqttClient {
     return this.client;
   }
 

@@ -3,13 +3,14 @@ import { Router } from '@angular/router';
 import { MqttService } from '../mqtt.service';
 import { CommonModule, NgFor } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-homepage',
   standalone: true,
   imports: [
     CommonModule,
-    NgFor
+    ReactiveFormsModule
   ],
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.css'
@@ -18,7 +19,14 @@ import { NgModule } from '@angular/core';
 export class HomepageComponent implements OnInit {
 
   topics: string [] = [];
+
+  selected_topic:string = '';
   //da spostare
+
+  message_form = new FormGroup({
+    message: new FormControl(''),
+  });
+
   get_all_topics(): string[] {
     return this.mqtt_service.get_topics();
   }
@@ -60,7 +68,13 @@ export class HomepageComponent implements OnInit {
   //da spostare
   subscribe_to_topic(topic: string) {
     this.mqtt_service.subscribe(topic)
+    this.selected_topic = topic;
   }
-
+  send_message_to_chat() {
+    this.mqtt_service.send_message(
+      this.selected_topic,
+      this.message_form.value.message ?? '',
+    );
+  }
   
 }
