@@ -76,5 +76,9 @@ export class HomepageComponent implements OnInit {
       this.message_form.value.message ?? '',
     );
   }
+
+  go_to_chatpage(){
+    this.router.navigate(['./chatpage']);
+  }
   
 }

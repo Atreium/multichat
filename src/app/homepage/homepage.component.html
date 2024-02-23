@@ -3,7 +3,7 @@
   <p>Il tuo nome utente è: {{ random_username }}</p>
 </div>
 
-<a routerLink="/chatpage">Vai alle chat</a>
+<button routerLink="chatpage">Vai alla Chat</button>
 
 <ul>
   <li *ngFor="let topic of topics">
@@ -13,8 +13,6 @@
 
 
 <form [formGroup]="message_form" (submit)="send_message_to_chat()">
- 
-
   <label for="message">message</label>
   <input id="message" type="text" formControlName="message">
 
